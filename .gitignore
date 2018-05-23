@@ -35,3 +35,6 @@ packages/
 /Config/Publisher/appsettings.production.json
 /Consumer/Config/appsettings.json
 /Publisher/Config/appsettings.json
+node_modules
+/Config/Consumer/appsettings.production.json
+/Config/Consumer/appsettings.production.json
