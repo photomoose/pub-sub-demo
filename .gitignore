@@ -31,3 +31,7 @@ _ReSharper*/
 #Nuget packages folder
 packages/
 /.vscode
+/Config/Consumer/appsettings.production.json
+/Config/Publisher/appsettings.production.json
+/Consumer/Config/appsettings.json
+/Publisher/Config/appsettings.json
