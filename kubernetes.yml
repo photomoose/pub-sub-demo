@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: publisher
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: publisher
+  template:
+    metadata:
+      labels:
+        app: publisher
+    spec:
+      volumes:
+      - name: publisher-volume
+        configMap:
+          name: publisher-appsettings   
+          items:
+          - key:  appsettings.production.json
+            path: appsettings.json                
+      containers:
+      - name: publisher
+        image: akstutorialacr.azurecr.io/publisher:latest
+        volumeMounts:
+        - name: publisher-volume
+          mountPath: /app/Config        
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: consumer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: consumer  
+  template:
+    metadata:
+      labels:
+        app: consumer
+    spec:
+      volumes:
+      - name: consumer-volume
+        configMap:
+          name: consumer-appsettings
+          items:
+          - key:  appsettings.production.json
+            path: appsettings.json
+      containers:
+      - name: consumer
+        image: akstutorialacr.azurecr.io/consumer:latest
+        volumeMounts:
+        - name: consumer-volume
+          mountPath: /app/Config

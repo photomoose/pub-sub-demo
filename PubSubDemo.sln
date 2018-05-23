@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2037
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Publisher", "Publisher\Publisher.csproj", "{35C08935-DF75-40F5-B925-C803FE24E592}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Consumer", "Consumer\Consumer.csproj", "{45E3D09B-0402-4AFB-B369-C448BCB7FC6A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{684C6C5E-1913-4910-8F27-32CA37D80276}"
+	ProjectSection(SolutionItems) = preProject
+		build-images.ps1 = build-images.ps1
+		create-configmaps.ps1 = create-configmaps.ps1
+		docker-compose.yml = docker-compose.yml
+		kubernetes.yml = kubernetes.yml
+		publish-images.ps1 = publish-images.ps1
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{35C08935-DF75-40F5-B925-C803FE24E592}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35C08935-DF75-40F5-B925-C803FE24E592}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35C08935-DF75-40F5-B925-C803FE24E592}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35C08935-DF75-40F5-B925-C803FE24E592}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45E3D09B-0402-4AFB-B369-C448BCB7FC6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45E3D09B-0402-4AFB-B369-C448BCB7FC6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45E3D09B-0402-4AFB-B369-C448BCB7FC6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45E3D09B-0402-4AFB-B369-C448BCB7FC6A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {48843F65-C88B-4DEC-B71B-B0118723FF2A}
+	EndGlobalSection
+EndGlobal
