@@ -70,4 +70,15 @@ spec:
     spec:
       containers:
       - name: web
-        image: akstutorialacr.azurecr.io/web:latest       
+        image: akstutorialacr.azurecr.io/web:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-service
+spec:
+  selector:
+    app: web
+  ports:
+  - port: 80   
+  type: LoadBalancer   
