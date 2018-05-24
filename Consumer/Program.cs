@@ -2,6 +2,7 @@
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Azure.ServiceBus;
 using Microsoft.Extensions.Configuration;
 
@@ -13,6 +14,8 @@ namespace Consumer
 		private static AppSettings _appSettings;
 
         private static readonly AutoResetEvent _exitEvent = new AutoResetEvent(false);
+		private static HubConnection _hubConnection;
+
 		static void Main(string[] args)
 		{
 			Console.CancelKeyPress += (o, e) =>
@@ -21,13 +24,23 @@ namespace Consumer
 				_exitEvent.Set();
 			};
 
-			Task.Run(() =>
+			Task.Run(async () =>
 			{
-				var configuration = new ConfigurationBuilder()
+				_appSettings = new ConfigurationBuilder()
 					.AddJsonFile("Config/appsettings.json")
+					.Build()
+					.Get<AppSettings>();
+
+				_hubConnection = new HubConnectionBuilder()
+					.WithUrl(_appSettings.HubUri)
 					.Build();
 
-				_appSettings = configuration.Get<AppSettings>();
+				Console.Write($"Connecting to hub {_appSettings.HubUri}...");
+
+				await _hubConnection.StartAsync();
+
+				Console.WriteLine("OK");
+
 
 				_queueClient = new QueueClient(_appSettings.QueueConfiguration.ConnectionString, _appSettings.QueueConfiguration.QueueName);
 
@@ -71,6 +84,10 @@ namespace Consumer
 			Console.WriteLine($"{DateTime.Now}: Received message {message.SystemProperties.SequenceNumber}: {messageBody}");
 
 			await Task.Delay(_appSettings.SimulatedWorkDuration, cancellationToken);
+
+			Console.Write($"{DateTime.Now}: Sending message {message.SystemProperties.SequenceNumber} to hub...");
+			await _hubConnection.InvokeAsync("SendMessage", Environment.MachineName, messageBody, cancellationToken);
+			Console.WriteLine("OK");
 
 			await _queueClient.CompleteAsync(message.SystemProperties.LockToken);
 		}
