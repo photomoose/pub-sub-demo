@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -35,12 +36,24 @@ namespace Consumer
 					.WithUrl(_appSettings.HubUri)
 					.Build();
 
-				Console.Write($"Connecting to hub {_appSettings.HubUri}...");
+				var isConnected = false;
 
-				await _hubConnection.StartAsync();
+				while (!isConnected)
+				{
 
-				Console.WriteLine("OK");
-
+					try
+					{
+						Console.Write($"Connecting to hub {_appSettings.HubUri}...");
+						await _hubConnection.StartAsync();
+						Console.WriteLine("OK");
+						isConnected = true;
+					}
+					catch (HttpRequestException ex)
+					{
+						Console.WriteLine("FAILED");
+						await Task.Delay(5000);
+					}
+				}
 
 				_queueClient = new QueueClient(_appSettings.QueueConfiguration.ConnectionString, _appSettings.QueueConfiguration.QueueName);
 
